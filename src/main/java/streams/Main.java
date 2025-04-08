@@ -68,7 +68,7 @@ public class Main {
 
         //4. Получите список продуктов, заказанных клиентом второго уровня между 01-фев-2021 и 01-апр-2021.
         List<Product> prod1 = customers.stream()
-                .filter(cus -> cus.getLevel() > 2L)
+                .filter(cus -> cus.getLevel().equals(2L))
                 .flatMap(customer -> customer.getOrders().stream())
                 .filter(or -> or.getOrderDate().isAfter(LocalDate.of(2021, 2, 1)) &&
                         or.getOrderDate().isBefore(LocalDate.of(2021, 4, 1)))
@@ -95,12 +95,11 @@ public class Main {
 
         //7. Получите список заказов, сделанных 15-марта-2021, выведите id заказов в консоль и затем верните
         //список их продуктов
-        List<Product> filteredProduct = customers.stream()
+        List<Order> filteredProduct = customers.stream()
                 .flatMap(customer -> customer.getOrders().stream())
                 .filter(date -> date.getOrderDate().isEqual(LocalDate.of(2021, 3, 15)))
                 .distinct()
                 .peek(orderId -> System.out.println(orderId.getId()))
-                .flatMap(prod -> prod.getProducts().stream())
                 .toList();
 
         //8. Рассчитайте общую сумму всех заказов, сделанных в феврале 2021.
